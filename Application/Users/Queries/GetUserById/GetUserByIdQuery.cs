@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Application
+namespace Application.Users.Queries
 {
-    public class GetUserByIdQuery
+    public sealed class GetUserByIdQuery : IQuery<UserView>
     {
         public Guid UserId { get; }
 
