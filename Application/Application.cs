@@ -7,22 +7,29 @@ namespace Application
     {
         private readonly IStore store = new InMemoryStore.Store();
         
-        public void CreateProject(Guid userId, string projectName)
+        public Project CreateProject(User user, string projectName)
         {
-            var command = new CreateProjectCommand(projectName, userId);
+            var projectId = Guid.NewGuid();
+            var command = new CreateProjectCommand(projectId, projectName, user.Id);
             new CreateProjectCommandHandler(store).HandleCommand(command);
+            var query = new GetByIdQuery(projectId);
+            
+            return new ProjectQueryHandler(store).HandleQuery(query);
         }
 
-        public void CreateUser(Guid userId, string userName)
+        public User CreateUser(string userName)
         {
+            var userId = Guid.NewGuid();
             var command = new CreateUserCommand(userId, userName);
             new CreateUserCommandHandler(store).HandleCommand(command);
+
+            return GetUser(userId);
         }
 
         public User GetUser(Guid userId)
         {
-            var query = new GetUserByIdQuery(userId);
-            return new GetUserByIdQueryHandler<User>(store).HandleQuery(query);
+            var query = new GetByIdQuery(userId);
+            return new UserQueryHandler(store).HandleQuery(query);
         }
     }
 }

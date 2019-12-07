@@ -29,7 +29,7 @@ namespace Application
                 throw new Exception("User is not allowed to have more than 5 projects");
             }
             
-            var projectKey = new SimpleKey(Guid.NewGuid().ToString());
+            var projectKey = new SimpleKey(command.ProjectId.ToString());
             try {
                 var project = store.Create(projectKey, new Project(command.ProjectName, command.UserId));
                 user.AddProject();

@@ -1,5 +1,4 @@
-﻿using System;
-using Domain;
+﻿using Domain;
 
 namespace Application
 {
@@ -15,7 +14,7 @@ namespace Application
         public void HandleCommand(CreateUserCommand command)
         {
             var userKey = new SimpleKey(command.UserId.ToString());
-            store.Create(userKey, new User(command.UserName));
+            store.Create(userKey, new User(command.UserName, command.UserId));
         }
     }
 }

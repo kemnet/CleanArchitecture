@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 
 namespace Tests
@@ -10,11 +9,9 @@ namespace Tests
         {
             var app = new Application.Application();
             
-            var userId = Guid.NewGuid();
             var userName = "User1";
-            
-            app.CreateUser(userId, userName);
-            var user = app.GetUser(userId);
+            var user = app.CreateUser(userName);
+
             Assert.Equal(userName, user.Name);
         }
         
@@ -23,11 +20,14 @@ namespace Tests
         {
             var app = new Application.Application();
             
-            var userId = Guid.NewGuid();
             var userName = "User1";
+            var projectName = "User1";
+            var user = app.CreateUser(userName);
             
-            //app.CreateUser(userId, userName);
-            app.CreateProject(userId, "Project1");
+            var project = app.CreateProject(user, projectName);
+            
+            Assert.Equal(project.UserId,  user.Id);
+            Assert.Equal(projectName,  project.Name);
         }
     }
 }
