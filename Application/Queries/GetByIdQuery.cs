@@ -2,7 +2,7 @@
 
 namespace Application
 {
-    public class GetByIdQuery
+    public class GetByIdQuery : IQuery
     {
         public Guid Id { get; }
 

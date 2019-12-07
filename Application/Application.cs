@@ -1,35 +1,55 @@
 ﻿using System;
+using System.Collections.Generic;
 using Domain;
+using InMemoryStore;
+using SimpleInjector;
 
 namespace Application
 {
     public class Application
     {
-        private readonly IStore store = new InMemoryStore.Store();
+        private Container container  = new Container();
+
+        public Application()
+        {
+            container.RegisterSingleton<IStore>(() => new InMemoryStore.Store());
+            container.Register(typeof(IHandleCommand<>), typeof(IHandleCommand<>).Assembly);
+            container.Register(typeof(IHandleQuery<,>), typeof(IHandleQuery<,>).Assembly);
+        }
         
         public Project CreateProject(User user, string projectName)
         {
             var projectId = Guid.NewGuid();
-            var command = new CreateProjectCommand(projectId, projectName, user.Id);
-            new CreateProjectCommandHandler(store).HandleCommand(command);
-            var query = new GetByIdQuery(projectId);
+            HandleCommand(new CreateProjectCommand(projectId, projectName, user.Id));
             
-            return new ProjectQueryHandler(store).HandleQuery(query);
+            return HandleQuery<GetByIdQuery, Project>(new GetByIdQuery(projectId));
         }
 
         public User CreateUser(string userName)
         {
             var userId = Guid.NewGuid();
-            var command = new CreateUserCommand(userId, userName);
-            new CreateUserCommandHandler(store).HandleCommand(command);
+            HandleCommand(new CreateUserCommand(userId, userName));
 
             return GetUser(userId);
         }
 
         public User GetUser(Guid userId)
         {
+            var store = container.GetInstance<IStore>();
+            
             var query = new GetByIdQuery(userId);
             return new UserQueryHandler(store).HandleQuery(query);
         }
+        
+        private void HandleCommand<T>(T command) where T : ICommand
+        {
+            container.GetInstance<IHandleCommand<T>>().HandleCommand(command);
+        }
+        
+        private TResponse HandleQuery<TQuery, TResponse>(TQuery query) where TQuery : IQuery
+        {
+            return container.GetInstance<IHandleQuery<TQuery, TResponse>>().HandleQuery(query);
+        }
+
     }
 }

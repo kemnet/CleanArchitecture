@@ -2,7 +2,7 @@
 
 namespace Domain
 {
-    public class CreateUserCommand
+    public class CreateUserCommand : ICommand
     {
         public readonly Guid UserId;
         public readonly string UserName;

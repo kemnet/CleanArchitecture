@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Persistance\Persistance.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="SimpleInjector" Version="4.8.1" />
+    </ItemGroup>
+
 </Project>
