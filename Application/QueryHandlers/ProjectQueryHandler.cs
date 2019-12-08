@@ -1,20 +1,21 @@
 ﻿using Domain;
+using Persistance;
 
 namespace Application
 {
     public class ProjectQueryHandler : IHandleQuery<GetByIdQuery, Project>
     {
-        private readonly IStore store;
+        private readonly ISnapshotStore _snapshotStore;
 
-        public ProjectQueryHandler(IStore store)
+        public ProjectQueryHandler(ISnapshotStore snapshotStore)
         {
-            this.store = store;
+            this._snapshotStore = snapshotStore;
         }
 
         public Project HandleQuery(GetByIdQuery query)
         {
             var projectKey = new SimpleKey(query.Id.ToString());
-            return store.Load<Project>(projectKey);
+            return _snapshotStore.Load<Project>(projectKey);
         }
     }
 }

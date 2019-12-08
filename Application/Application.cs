@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Domain;
-using InMemoryStore;
+using Persistance;
 using SimpleInjector;
 
 namespace Application
@@ -12,7 +11,7 @@ namespace Application
 
         public Application()
         {
-            container.RegisterSingleton<IStore>(() => new InMemoryStore.Store());
+            container.RegisterSingleton<ISnapshotStore>(() => new InMemorySnapshotStore.SnapshotStore());
             container.Register(typeof(IHandleCommand<>), typeof(IHandleCommand<>).Assembly);
             container.Register(typeof(IHandleQuery<,>), typeof(IHandleQuery<,>).Assembly);
         }
@@ -35,7 +34,7 @@ namespace Application
 
         public User GetUser(Guid userId)
         {
-            var store = container.GetInstance<IStore>();
+            var store = container.GetInstance<ISnapshotStore>();
             
             var query = new GetByIdQuery(userId);
             return new UserQueryHandler(store).HandleQuery(query);

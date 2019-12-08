@@ -7,7 +7,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Domain\Domain.csproj" />
-      <ProjectReference Include="..\InMemoryStore\InMemoryStore.csproj" />
+      <ProjectReference Include="..\InMemorySnapshotStore\InMemorySnapshotStore.csproj" />
       <ProjectReference Include="..\Persistance\Persistance.csproj" />
     </ItemGroup>
 

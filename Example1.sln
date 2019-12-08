@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{DF272D5E-5310-4E06-A5B9-C8F5CA68D76A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InMemoryStore", "InMemoryStore\InMemoryStore.csproj", "{0E2D4BDF-62E1-4838-80FD-C2CEE953DB66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InMemorySnapshotStore", "InMemorySnapshotStore\InMemorySnapshotStore.csproj", "{0E2D4BDF-62E1-4838-80FD-C2CEE953DB66}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistance", "Persistance\Persistance.csproj", "{62C9155B-59B9-4A5C-849D-9FF2C6DE50C3}"
 EndProject

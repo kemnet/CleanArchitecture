@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using Application;
+using Persistance;
 
-namespace InMemoryStore
+namespace InMemorySnapshotStore
 {
-    public class Store : IStore
+    public class SnapshotStore : ISnapshotStore
     {
         private ConcurrentDictionary<string, object> store = new ConcurrentDictionary<string, object>();
 

@@ -1,15 +1,16 @@
 ﻿using System;
 using Domain;
+using Persistance;
 
 namespace Application
 {
     public class CreateProjectCommandHandler : IHandleCommand<CreateProjectCommand>
     {
-        private readonly IStore store;
+        private readonly ISnapshotStore _snapshotStore;
 
-        public CreateProjectCommandHandler(IStore store)
+        public CreateProjectCommandHandler(ISnapshotStore snapshotStore)
         {
-            this.store = store;
+            this._snapshotStore = snapshotStore;
         }
 
         public void HandleCommand(CreateProjectCommand command)
@@ -22,8 +23,8 @@ namespace Application
             }
 
             var userKey = new SimpleKey(command.UserId.ToString());
-            var userBeforeUpdate = store.Load<User>(userKey);
-            var user = store.Load<User>(userKey);
+            var userBeforeUpdate = _snapshotStore.Load<User>(userKey);
+            var user = _snapshotStore.Load<User>(userKey);
             
             if (user.ProjectCount >= 5) {
                 throw new Exception("User is not allowed to have more than 5 projects");
@@ -31,12 +32,12 @@ namespace Application
             
             var projectKey = new SimpleKey(command.ProjectId.ToString());
             try {
-                var project = store.Create(projectKey, new Project(command.ProjectName, command.UserId));
+                var project = _snapshotStore.Create(projectKey, new Project(command.ProjectName, command.UserId));
                 user.AddProject();
             }
             catch (Exception) {
-                store.Update(userKey, userBeforeUpdate);
-                store.Delete<Project>(projectKey);
+                _snapshotStore.Update(userKey, userBeforeUpdate);
+                _snapshotStore.Delete<Project>(projectKey);
                     
                 throw new Exception($"Failed to apply {nameof(CreateProjectCommand)}");
             }

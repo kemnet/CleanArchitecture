@@ -1,6 +1,8 @@
-﻿namespace Application
+﻿using Application;
+
+namespace Persistance
 {
-    public interface IStore
+    public interface ISnapshotStore
     {
         T Create<T>(IKey key, T item);
 
